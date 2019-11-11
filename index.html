@@ -69,6 +69,8 @@ function create ()
 		frames: [ { key: 'ship', frame: 0 } ],
 		frameRate: 20
 	});
+	
+	this.cameras.main.startFollow(sprite, true, 1,1,100,100);
 }
 
 function update ()
@@ -98,20 +100,7 @@ function update ()
         sprite.setAngularVelocity(0);
     }
 	
-	if(sprite.x<cWidth/4)
-	{
-		this.camera.scrollX(cWidth/4);
-	}
-	else if ( sprite.x>3*cHeight/4){
-		this.camera.scrollX(3*cWidth/4);
-	}
-	if(sprite.y<cHeight/4)
-	{
-		this.camera.scrollY(cHeight/4);
-	}
-	else if (sprite.y>3*cHeight/4){
-		this.camera.scrollY(3*cHeight/4);
-	}
+	
 
     text.setText('Speed: ' + sprite.body.speed);
 
