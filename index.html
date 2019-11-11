@@ -13,12 +13,14 @@
 <body>
 
 <script type="text/javascript">
-
+	
+	var cWidth = 800;
+	var cHeight = 600;
 	var config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 800,
-    height: 600,
+    width: cWidth,
+    height: cHeight,
     physics: {
         default: "arcade",
         arcade: {
@@ -95,6 +97,21 @@ function update ()
     {
         sprite.setAngularVelocity(0);
     }
+	
+	if(sprite.x<cWidth/4(sprite.y>cHeight/4 && sprite.y<3*cHeight/4))
+	{
+		this.camera.scrollX(cWidth/4);
+	}
+	else if ( sprite.x>3*cHeight/4){
+		this.camera.scrollX(3*cWidth/4);
+	}
+	if(sprite.y<cHeight/4)
+	{
+		this.camera.scrollY(cHeight/4);
+	}
+	else if (sprite.y>3*cHeight/4){
+		this.camera.scrollY(3*cHeight/4);
+	}
 
     text.setText('Speed: ' + sprite.body.speed);
 
