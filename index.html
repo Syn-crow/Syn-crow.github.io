@@ -71,12 +71,12 @@ function create ()
 
 function update ()
 {
-	ship.anims.play('propStop', true);
+	sprite.anims.play('propStop', true);
 
     if (cursors.up.isDown)
     {
         this.physics.velocityFromRotation(sprite.rotation, 200, sprite.body.acceleration);
-		ship.anims.play('propForward', true);
+		sprite.anims.play('propForward', true);
     }
     else
     {
