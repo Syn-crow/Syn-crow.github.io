@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Out of Sync</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.20.1/dist/phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -31,7 +31,7 @@
             default: 'arcade',
             arcade: {
                 gravity: { y: 0 },
-                debug: false
+                fps:60
             }
         },
         scene: {
@@ -85,7 +85,7 @@
 			
 			player.anims.play('propForward', true);
 			
-			game.physics.arcade.accelerationFromRotation(player.rotation, 200, player.body.acceleration);			
+			this.physics.arcade.accelerationFromRotation(player.rotation, 200, player.body.acceleration);			
 		}
 		else
 		{
