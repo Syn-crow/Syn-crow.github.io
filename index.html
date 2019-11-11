@@ -54,9 +54,10 @@
 		//this.add.image(0, 0, 'vaisseau')
 		player = this.physics.add.sprite(100, 450, 'vaisseau');
 
-		player.setCollideWorldBounds(true);
-		player.setDrag(100);
-		//player.setMaxSpeed(150);
+		player.setDamping(true);
+		player.setDrag(0.99);
+		player.setMaxVelocity(200);
+
 		
 		this.anims.create({
 			key: 'propForward',
@@ -84,14 +85,12 @@
 			
 			player.anims.play('propForward', true);
 			
-			game.physics.arcade.accelerationFromRotation(sprite.rotation, 200, sprite.body.acceleration);
-			
-			player.setAcceleration(10);
+			game.physics.arcade.accelerationFromRotation(player.rotation, 200, player.body.acceleration);			
 		}
 		else
 		{
 			player.anims.play('propStop', true);
-			player.setAcceleration(-10);
+			sprite.setAcceleration(0);
 		}
 		
 		if (cursors.left.isDown)
