@@ -85,8 +85,8 @@
 			
 			player.anims.play('propForward', true);
 			
-			player.setVelocityX(Math.cos(player.angle)*200);
-			player.setVelocityY(Math.sin(player.angle)*200);
+			player.setAccelerationX(Math.cos(player.angle)*20);
+			player.setAccelerationY(Math.sin(player.angle)*20);
 		}
 		else
 		{
@@ -96,11 +96,11 @@
 		
 		if (cursors.left.isDown)
 		{
-			player.setAngularAcceleration(10);
+			player.setAngularAcceleration(50);
 		}
 		else if(cursors.right.isDown)
 		{
-			player.setAngularAcceleration(-10);
+			player.setAngularAcceleration(-50);
 		}
 		else
 		{
