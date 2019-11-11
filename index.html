@@ -42,12 +42,12 @@ var game = new Phaser.Game(config);
 function preload ()
 {
     //this.load.image('bullet', 'assets/games/asteroids/bullets.png');
-    this.load.image('ship', 'assets/vaisseau.png');
+    this.load.spritesheet('ship', 'assets/vaisseau.png', { frameWidth: 90, frameHeight: 90 });
 }
 
 function create ()
 {
-    sprite = this.physics.add.image(400, 300, 'ship');
+    sprite = this.physics.add.sprite(400, 300, 'ship');
 
     sprite.setDrag(0.99);
     sprite.setMaxVelocity(200);
@@ -55,13 +55,28 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
 
     text = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
+	
+	this.anims.create({
+		key: 'propForward',
+		frames: this.anims.generateFrameNumbers('ship', { start: 1, end: 2 }),
+		frameRate: 60,
+		repeat: -1
+	});
+	this.anims.create({
+		key: 'propStop',
+		frames: [ { key: 'ship', frame: 0 } ],
+		frameRate: 20
+	});
 }
 
 function update ()
 {
+	player.anims.play('propStop', true);
+
     if (cursors.up.isDown)
     {
         this.physics.velocityFromRotation(sprite.rotation, 200, sprite.body.acceleration);
+		player.anims.play('propForward', true);
     }
     else
     {
