@@ -15,6 +15,11 @@
 <script type="text/javascript">
 
 	var player;
+	var angle = 0;
+	var speed = 0;
+	var maxSpeed = 160;
+
+	var propeled = false;
 	var cursors;
 
 
@@ -74,16 +79,28 @@
     {
 		if (cursors.up.isDown)
 {
-			player.setVelocityX(-160);
-
+			propeled = true;
+			
 			player.anims.play('propForward', true);
+			player.setVelocityX(160);
 		}
 		else
 		{
-			player.setVelocityX(160);
-
 			player.anims.play('propStop', true);
+			player.setVelocityX(0);
 		}
+		
+		if (cursor.left.isDown)
+		{
+			player.setAngularAcceleration(10);
+			angle += 10;
+		}
+		else if(cursor.right.isDown)
+		{
+			player.setAngularAcceleration(10);
+			angle -= 10;
+		}
+		
     }
 
 </script>
