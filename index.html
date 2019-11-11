@@ -29,16 +29,47 @@
 
     function preload ()
     {
-		this.load.image('vaisseau', 'assets/vaisseau.png');
+		this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 90, frameHeight: 90 });
+
     }
 
     function create ()
     {
-		this.add.image(0, 0, 'vaisseau')
-    }
+		//this.add.image(0, 0, 'vaisseau')
+		player = this.physics.add.sprite(100, 450, 'vaisseau');
+
+		player.setBounce(0.2);
+		player.setCollideWorldBounds(true);
+
+		this.anims.create({
+			key: 'propForward',
+			frames: this.anims.generateFrameNumbers('vaisseau', { start: 1, end: 2 }),
+			frameRate: 10,
+			repeat: -1
+		});
+
+		this.anims.create({
+			key: 'propStop',
+			frames: [ { key: 'vaisseau', frame: 0 } ],
+			frameRate: 20
+		});
+
+	}
 
     function update ()
     {
+		if (cursors.up.isDown)
+{
+			player.setVelocityX(-160);
+
+			player.anims.play('propForward', true);
+		}
+		else
+		{
+			player.setVelocityX(160);
+
+			player.anims.play('propStop', true);
+		}
     }
 
 </script>
