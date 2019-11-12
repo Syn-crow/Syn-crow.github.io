@@ -90,15 +90,15 @@ function update ()
 
     if (cursors.left.isDown)
     {
-        sprite.setAngularVelocity(-300);
+        sprite.setAngularAcceleration(-50);
     }
     else if (cursors.right.isDown)
     {
-        sprite.setAngularVelocity(300);
+        sprite.setAngularAcceleration(50);
     }
     else
     {
-        sprite.setAngularVelocity(0);
+        sprite.setAngularAcceleration(sprite.angularAcceleration/4);
     }
 	
 	
