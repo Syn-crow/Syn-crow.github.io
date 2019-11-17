@@ -59,7 +59,7 @@ function create ()
     sprite.setMaxVelocity(200);
 
     asteroids = this.add.group();
-    asteroids.createMultiple({classType: Asteroid	, quantity: 6, repeat: 1 });
+    asteroids.createMultiple({classType: Asteroid	, quantity: 6, runChildUpdate: true });
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -136,7 +136,9 @@ var Asteroid = new Phaser.Class({
         },
         update: function (time, delta)
         {
-
+          this.setActive(false);
+          this.setVisible(false);
+          console.log(this.x);
         }
 
 });
