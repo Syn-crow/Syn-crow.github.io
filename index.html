@@ -1,6 +1,6 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
     <title>Out of Sync</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.20.1/dist/phaser.js"></script>
@@ -13,7 +13,7 @@
 <body>
 
 <script type="text/javascript">
-	
+
 	var cWidth = 800;
 	var cHeight = 600;
 	var config = {
@@ -45,10 +45,13 @@ function preload ()
 {
     //this.load.image('bullet', 'assets/games/asteroids/bullets.png');
     this.load.spritesheet('ship', 'assets/vaisseau.png', { frameWidth: 90, frameHeight: 90 });
+    this.load.image("asteroid",'assets/asteroid.png')
 }
 
 function create ()
 {
+    game.stage.backgroundColor = "#501768";
+
     sprite = this.physics.add.sprite(400, 300, 'ship');
 
     sprite.setDrag(0.99);
@@ -57,7 +60,7 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
 
     text = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
-	
+
 	this.anims.create({
 		key: 'propForward',
 		frames: this.anims.generateFrameNumbers('ship', { start: 1, end: 2 }),
@@ -69,7 +72,7 @@ function create ()
 		frames: [ { key: 'ship', frame: 0 } ],
 		frameRate: 20
 	});
-	
+
 	this.cameras.main.startFollow(sprite, true, 0.8,0.8,0,0);
 	this.cameras.main.setZoom(0.5)
 }
@@ -100,8 +103,8 @@ function update ()
     {
         sprite.setAngularVelocity(0);
     }
-	
-	
+
+
 
     text.setText('Speed: ' + sprite.body.speed);
 
