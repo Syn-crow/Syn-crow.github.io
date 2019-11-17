@@ -51,12 +51,15 @@ function preload ()
 function create ()
 {
     //game.stage.backgroundColor = "#501768";
-    this.cameras.main.setBackgroundColor('#290B35');
+    this.cameras.main.setBackgroundColor('#0B0019');
 
     sprite = this.physics.add.sprite(400, 300, 'ship');
 
     sprite.setDrag(0.99);
     sprite.setMaxVelocity(200);
+
+    asteroids = this.add.group();
+    asteroids.createMultiple({classType: Asteroid	, quantity: 6, repeat: 1 });
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -117,6 +120,29 @@ function update ()
     this.physics.world.wrap(sprite, 32);
 
     // bullets.forEachExists(screenWrap, this);
+}
+
+var Asteroid = new Phaser.Class({
+
+        Extends: Phaser.GameObjects.Image,
+
+        initialize:
+
+        function Asteroid (scene)
+        {
+          this.x = randomIntFromInterval(game.cameras.main.left,game.cameras.main.right);
+          this.y = randomIntFromInterval(game.cameras.main.bottom,game.cameras.main.top);
+          Phaser.GameObjects.Image.call(this, scene, this.x, this.y, 'asteroid');
+        },
+        update: function (time, delta)
+        {
+
+        }
+
+});
+
+function randomIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 </script>
