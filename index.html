@@ -2,151 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Out of Sync</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.20.1/dist/phaser.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
+    <title>Algebra Compilator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
+  <div id="app">
+    <h1><b>Algebra Compilator</b></h1>
+    <p><b>Authorized characters: "0123456789 +-/x"</b></p>
+    <input v-model="code">
+    <button v-on:click="compile"><b>compile</b></button>
+    <ul id="resultLists">
+      <li v-for="item in results">
+        <result :result="item"></result>
+      </li>
+    </ul>'
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
 <script type="text/javascript">
 
-	var cWidth = 800;
-	var cHeight = 600;
-	var config = {
-    type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: cWidth,
-    height: cHeight,
-    physics: {
-        default: "arcade",
-        arcade: {
-            fps: 60,
-            gravity: { y: 0 }
-        }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
+var app = new Vue({
+  el: '#app',
+  methods: {
+    compile: function(){
+      this.results.push(iterate(this.code));
     }
-};
+  },
+  data: {
+    code: "",
+    message: "",
+    results: []
+  }
+})
 
-var sprite;
-var cursors;
-var text;
+// Définition d'un nouveau composant appelé `button-counter`
+Vue.component('result', {
+  props: ['result'],
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+  template: '<ul class="result"><li v-for="item in result">{{ item.type }} : {{ item.word}}</li></ul>'
+})
 
-var game = new Phaser.Game(config);
+function iterate(code){
 
-function preload ()
-{
-    //this.load.image('bullet', 'assets/games/asteroids/bullets.png');
-    this.load.spritesheet('ship', 'assets/vaisseau.png', { frameWidth: 90, frameHeight: 90 });
-    this.load.image("asteroid",'assets/asteroid.png')
+function consume(){
+  word+=src[i];
+  i++
+}
+function skip(){
+  i++
+}
+function product(type){
+  array.push({"type" : type, "word" : word});
+  word = "";
 }
 
-function create ()
-{
-    //game.stage.backgroundColor = "#501768";
-    this.cameras.main.setBackgroundColor('#0B0019');
+function isNum(){
+  let res = "0123456789".includes(src[i])
+  if(res){
+     consume();
+  }
+  return res;
+}
+function isNumber(){
+  if(!isNum()) return false;
+  while(isNum()){
 
-    sprite = this.physics.add.sprite(400, 300, 'ship');
-
-    sprite.setDrag(0.99);
-    sprite.setMaxVelocity(200);
-
-    asteroids = this.add.group();
-    asteroids.createMultiple({classType: Asteroid	, quantity: 6, runChildUpdate: true });
-
-    cursors = this.input.keyboard.createCursorKeys();
-
-    text = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
-
-	this.anims.create({
-		key: 'propForward',
-		frames: this.anims.generateFrameNumbers('ship', { start: 1, end: 2 }),
-		frameRate: 60,
-		repeat: -1
-	});
-	this.anims.create({
-		key: 'propStop',
-		frames: [ { key: 'ship', frame: 0 } ],
-		frameRate: 20
-	});
-
-	this.cameras.main.startFollow(sprite, true, 0.8,0.8,0,0);
-	this.cameras.main.setZoom(0.5)
+  }product("NUMBER");
+  return true;
+}
+function isOperator(){
+  let res = "+-/x".includes(src[i]);
+  if(res){
+     consume();
+     product("OPERATOR");
+  }
+  return res;
+}
+function isSymbol(){
+  let res = "()".includes(src[i]);
+  if(res){
+     consume();
+     product("SYMBOL");
+  }
+  return res;
+}
+function isNull(){
+  let res = " \n".includes(src[i]);
+  if(res){
+     skip();
+  }
+  return res;
 }
 
-function update ()
-{
-	sprite.anims.play('propStop', true);
-
-    if (cursors.up.isDown)
-    {
-        this.physics.velocityFromRotation(sprite.rotation, 200, sprite.body.acceleration);
-		sprite.anims.play('propForward', true);
+  let src = code;
+  let i =0;
+  let word = "";
+  let array = [];
+  let listTraitement = [isNumber, isNull, isOperator, isSymbol];
+  while(src.length>i){
+    let n = 0;
+    console.log("i:"+i);
+    while(!listTraitement[n]()){
+      n++;
+      console.log(n);
+      if(n>listTraitement.length) return "error";
     }
-    else
-    {
-        sprite.setAcceleration(0);
-    }
-
-    if (cursors.left.isDown)
-    {
-        sprite.setAngularVelocity(-50);
-    }
-    else if (cursors.right.isDown)
-    {
-        sprite.setAngularVelocity(50);
-    }
-    else
-    {
-        sprite.setAngularVelocity(0);
-    }
-
-
-
-    text.setText('Speed: ' + sprite.body.speed);
-
-    // if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
-    // {
-    //     fireBullet();
-    // }
-
-    this.physics.world.wrap(sprite, 32);
-
-    // bullets.forEachExists(screenWrap, this);
+  }
+  console.log("cc");
+  return array;
 }
-
-var Asteroid = new Phaser.Class({
-
-        Extends: Phaser.GameObjects.Image,
-
-        initialize:
-
-        function Asteroid (scene)
-        {
-          this.x = randomIntFromInterval(game.cameras.main.left,game.cameras.main.right);
-          this.y = randomIntFromInterval(game.cameras.main.bottom,game.cameras.main.top);
-          Phaser.GameObjects.Image.call(this, scene, this.x, this.y, 'asteroid');
-        },
-        update: function (time, delta)
-        {
-          this.setActive(false);
-          this.setVisible(false);
-          console.log(this.x);
-        }
-
-});
-
-function randomIntFromInterval(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 </script>
 
 </body>
