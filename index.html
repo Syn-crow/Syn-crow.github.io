@@ -13,7 +13,7 @@
     <input v-model="code">
     <button v-on:click="compile"><b>compile</b></button>
     <ul id="resultLists">
-      <li v-for="item in results">
+      <li v-for="item in results.slice().reverse()">
         <result :result="item"></result>
       </li>
     </ul>'
@@ -29,9 +29,17 @@ var app = new Vue({
   methods: {
     compile: function(){
       let lexer = iterate(this.code);
-      console.log(lexer);
-      parse(lexer);
+      let error = false;
+      for(item in lexer){
+        if(item.type=="ERROR"){
+          error = true;
+        }
+      }
       this.results.push(lexer);
+      console.log(error,lexer);
+      if(!error){
+        parse(lexer);
+      }
     }
   },
   data: {
@@ -49,7 +57,7 @@ Vue.component('result', {
       count: 0
     }
   },
-  template: '<ul class="result"><li v-for="item in result">{{ item.type }} : {{ item.word}}</li></ul>'
+  template: '<ul class="result" :class={error : (result.type=="error")} ><li v-for="item in result">{{ item.type }} : {{ item.word}}</li></ul>'
 })
 
 function parse(letex){
@@ -61,12 +69,13 @@ function parse(letex){
   }
 
   function product(duo){
+
       if(duo.type=="OPERATOR"){
-        let a = pile.pop();
         let b = pile.pop();
+        let a = pile.pop();
         if(duo.word =="+") pile.push({"a":a, "b":b, "operator":"+", getValue(){return parseFloat(this.a.getValue()) + parseFloat(this.b.getValue()) }});
         if(duo.word =="-") pile.push({"a":a, "b":b, "operator":"-", getValue(){return this.a.getValue() - this.b.getValue() }});
-        if(duo.word =="x") pile.push({"a":a, "b":b, "operator":"x", getValue(){return this.a.getValue() * this.b.getValue() }});
+        if(duo.word =="x" || duo.word == "*") pile.push({"a":a, "b":b, "operator":"x", getValue(){return this.a.getValue() * this.b.getValue() }});
         if(duo.word =="/") pile.push({"a":a, "b":b, "operator":"/", getValue(){return this.a.getValue() / this.b.getValue() }});
       }
       if(duo.type=="NUMBER"){
@@ -82,12 +91,12 @@ function parse(letex){
     parseM();
     if(i<letex.length){
     if(letex[i].word=="+"){
-      next(); console.log("nextA1");
+      next(); //console.log("nextA1");
       parseA();
       product({"word":"+",type:"OPERATOR"});
     }
     else if(letex[i].word=="-"){
-      next();console.log("nextA2");
+      next();//console.log("nextA2");
       parseA();
       product({"word":"-",type:"OPERATOR"});
     }
@@ -96,13 +105,13 @@ function parse(letex){
   function parseM(){
     parseE();
     if(i<letex.length){
-    if(letex[i].word=="x"){
-      next();console.log("nextM1");
+    if(letex[i].word=="x"|| letex[i].word=="*"){
+      next();//console.log("nextM1");
       parseM();
       product({"word":"x",type:"OPERATOR"})
     }
     else if(letex[i].word=="/"){
-      next();console.log("nextM2");
+      next();//console.log("nextM2");
       parseM();
       product({"word":"/",type:"OPERATOR"})
     }
@@ -111,15 +120,18 @@ function parse(letex){
   function parseE(){
     if(i<letex.length){
     if(letex[i].word=="("){
-      next();console.log("nextE1");
+      next();//console.log("nextE1");
       parseA();
-      if(letex[i]==")"){
+      console.log("characters juste dans la formule:",letex[i]);
+      if(letex[i].word==")"){
         product({"word":"()",type:"SYMBOL"})
+        next();
+        parseA();
       }
     }
     else if(letex[i].type=="NUMBER"){
       product(letex[i]);
-      next();console.log("nextE2",pile);
+      next();//console.log("nextE2",pile);
     }
     }
   }
@@ -157,7 +169,7 @@ function iterate(code){
     return true;
   }
   function isOperator(){
-    let res = "+-/x".includes(src[i]);
+    let res = "+-/x*".includes(src[i]);
     if(res){
        consume();
        product("OPERATOR");
@@ -187,16 +199,14 @@ function iterate(code){
   let listTraitement = [isNumber, isNull, isOperator, isSymbol];
   while(src.length>i){
     let n = 0;
-    console.log("i:"+i);
     while(!listTraitement[n]()){
       n++;
-      console.log(n);
-      if(n>listTraitement.length) return "error";
+      if(n>3){
+        array.push({"type":"ERROR", "word":"character "+ code[i]+ " not reconized"});
+        return array;
+      }
     }
   }
-  console.log("cc");
-  console.log("res",array);
-
   return array;
 }
 </script>

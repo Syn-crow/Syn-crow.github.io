@@ -63,3 +63,6 @@ ul.result li{
   background-color: grey;
   color:white;
 }
+.error{
+  background-color: red;
+}
