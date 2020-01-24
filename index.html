@@ -13,8 +13,10 @@
     <input v-model="code">
     <button v-on:click="compile"><b>compile</b></button>
     <ul id="resultLists">
-      <li v-for="item in results.slice().reverse()">
+      <li v-for="(item, i) in resultsLexer.slice().reverse()">
+        <p>{{codes.slice().reverse()[i]}}</p>
         <result :result="item"></result>
+        <p>{{results.slice().reverse()[i]}}</p>
       </li>
     </ul>'
   </div>
@@ -28,24 +30,27 @@ var app = new Vue({
   el: '#app',
   methods: {
     compile: function(){
+      this.codes.push(this.code);
       let lexer = iterate(this.code);
       let error = false;
-      for(item in lexer){
-        if(item.type=="ERROR"){
+      lexer.forEach((item, i) => {
+        if(item.type=="ERROR" || error){
           error = true;
         }
-      }
-      this.results.push(lexer);
+      });
+      this.resultsLexer.push(lexer);
       console.log(error,lexer);
       if(!error){
-        parse(lexer);
+        this.results.push(parse(lexer)[0].getValue());
       }
     }
   },
   data: {
     code: "",
     message: "",
-    results: []
+    results: [],
+    resultsLexer:[],
+    codes: []
   }
 })
 
@@ -57,7 +62,7 @@ Vue.component('result', {
       count: 0
     }
   },
-  template: '<ul class="result" :class={error : (result.type=="error")} ><li v-for="item in result">{{ item.type }} : {{ item.word}}</li></ul>'
+  template: '<ul class="result"><li v-for="item in result" :class="item.type">{{ item.type }} : {{ item.word}}</li></ul>'
 })
 
 function parse(letex){
@@ -202,7 +207,7 @@ function iterate(code){
     while(!listTraitement[n]()){
       n++;
       if(n>3){
-        array.push({"type":"ERROR", "word":"character "+ code[i]+ " not reconized"});
+        array.push({type:"ERROR", "word":"character "+ code[i]+ " not reconized"});
         return array;
       }
     }
