@@ -2,6 +2,12 @@
   margin: 15%;
   font-family: Arial;
 }
+#treeHidden{
+  display: none;
+}
+#treeShown{
+  display: block;
+}
 ul.result li.ERROR{
   background-color: rgb(187,11, 11);
 }
@@ -29,7 +35,33 @@ input{
   border-radius: 4px;
 }
 input:focus{
-  border-bottom: 10px solid transparent;
+  border-bottom: 0px solid transparent;
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+@keyframes clickedin {
+  from {
+    background-color: grey;
+    color: white;
+  }
+
+  to {
+    background-color: lightgrey;
+    color: black;
+  }
+}
+@keyframes clickedout {
+  from {
+    background-color: lightgrey;
+    color: black;
+  }
+
+  to {
+    background-color: grey;
+    color: white;
+
+  }
 }
 button{
   background-color: lightgrey;
@@ -43,6 +75,12 @@ button{
   margin-left: 10%;
   margin-right: 10%;
   cursor: pointer;
+}
+button:focus{
+  /*background-color: grey;
+  color: white;*/
+  animation-duration: 3s;
+  animation-name: clickedin;
 }
 ul#resultLists {
   list-style-type: none;

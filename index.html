@@ -8,6 +8,11 @@
 <body>
 
   <div id="app">
+    <div :id="treeId">
+      <button @click="closeTree()">close</button>
+      <div id="tree" style="height:700px; width:900px">
+    </div>
+    </div>
     <h1><b>Algebra Compilator</b></h1>
     <p><b>Authorized characters: "0123456789 +-/x"</b></p>
     <input v-model="code">
@@ -23,36 +28,61 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
+<script src="https://rawgit.com/PierreCapo/treeviz/master/dist/index.js"></script>
 <script type="text/javascript">
 
 var app = new Vue({
   el: '#app',
   methods: {
+    closeTree: function(){
+      this.treeShow=false;
+    },
+    openTree: function(){
+      this.treeShow=true;
+    },
     compile: function(){
-      this.codes.push(this.code);
-      let lexer = iterate(this.code);
-      let error = false;
-      lexer.forEach((item, i) => {
-        if(item.type=="ERROR" || error){
-          error = true;
+      if(this.code!=""){
+        this.codes.push(this.code);
+        let lexer = iterate(this.code);
+        let error = false;
+        lexer.forEach((item, i) => {
+          if(item.type=="ERROR" || error){
+            error = true;
+          }
+        });
+        this.resultsLexer.push(lexer);
+        console.log(error,lexer);
+        if(!error){
+          let parsed = parse(lexer)[0];
+          this.displayTree(parsed);
+          this.results.push(parsed).getValue();
+        }else {
+          this.results.push("error in lexer");
         }
-      });
-      this.resultsLexer.push(lexer);
-      console.log(error,lexer);
-      if(!error){
-        this.results.push(parse(lexer)[0].getValue());
-      }else {
-        this.results.push("error in lexer");
       }
+    },
+    displayTree(data){
+      console.log(data);
+      this.openTree();
+      var myTree = Treeviz.create({
+        htmlId: "tree",
+        idKey: "operator",
+        flatData: false,
+        relationnalField: "a",
+      });
+      myTree.refresh(data);
     }
   },
   data: {
+    treeShow : false,
     code: "",
     message: "",
     results: [],
     resultsLexer:[],
     codes: []
+  },
+  computed:{
+    treeId:function(){if(!this.treeShow){return "treeHidden"}}
   }
 })
 
@@ -133,7 +163,7 @@ function parse(letex){
       if(letex[i].word==")"){
         product({"word":"()",type:"SYMBOL"})
         next();
-        parseA();
+        //parseA();
       }
     }
     else if(letex[i].type=="NUMBER"){
