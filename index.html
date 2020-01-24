@@ -13,12 +13,12 @@
     <input v-model="code">
     <button v-on:click="compile"><b>compile</b></button>
     <ul id="resultLists">
-      <li v-for="(item, i) in resultsLexer.slice().reverse()">
-        <p>{{codes.slice().reverse()[i]}}</p>
+      <li class="calculus" v-for="(item, i) in resultsLexer.slice().reverse()">
+        <p>calcul : {{codes.slice().reverse()[i]}}</p>
         <result :result="item"></result>
-        <p>{{results.slice().reverse()[i]}}</p>
+        <p>resultat : {{results.slice().reverse()[i]}}</p>
       </li>
-    </ul>'
+    </ul>
   </div>
 
 
@@ -42,6 +42,8 @@ var app = new Vue({
       console.log(error,lexer);
       if(!error){
         this.results.push(parse(lexer)[0].getValue());
+      }else {
+        this.results.push("error in lexer");
       }
     }
   },
