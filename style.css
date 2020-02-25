@@ -2,8 +2,14 @@
   margin: 15%;
   font-family: Arial;
 }
+#treeHidden{
+  display: none;
+}
+#treeShown{
+  display: block;
+}
 ul.result li.ERROR{
-  background-color: red;
+  background-color: rgb(187,11, 11);
 }
 h1 {
   text-decoration: none;
@@ -29,7 +35,33 @@ input{
   border-radius: 4px;
 }
 input:focus{
-  border-bottom: 10px solid transparent;
+  border-bottom: 0px solid transparent;
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+@keyframes clickedin {
+  from {
+    background-color: grey;
+    color: white;
+  }
+
+  to {
+    background-color: lightgrey;
+    color: black;
+  }
+}
+@keyframes clickedout {
+  from {
+    background-color: lightgrey;
+    color: black;
+  }
+
+  to {
+    background-color: grey;
+    color: white;
+
+  }
 }
 button{
   background-color: lightgrey;
@@ -44,12 +76,18 @@ button{
   margin-right: 10%;
   cursor: pointer;
 }
+button:focus{
+  /*background-color: grey;
+  color: white;*/
+  animation-duration: 3s;
+  animation-name: clickedin;
+}
 ul#resultLists {
   list-style-type: none;
   margin: 5%;
   padding: 0px;
 }
-ul.result {
+li.calculus {
   margin: 10%;
   margin-top: 1%;
   margin-bottom: 2%;
@@ -58,6 +96,10 @@ ul.result {
   background-color: lightgrey;
   list-style-type: none;
   border-radius: 4px;
+}
+ul.result{
+  list-style-type: none;
+  padding: 0px;
 }
 ul.result li{
   padding: 16px 32px;
