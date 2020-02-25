@@ -1,0 +1,19 @@
+{
+  "name": "syn-crow.github.io",
+  "version": "1.0.0",
+  "description": "[Syn-crow.github.io](https://syn-crow.github.io/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Syn-crow/Syn-crow.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Syn-crow/Syn-crow.github.io/issues"
+  },
+  "homepage": "https://github.com/Syn-crow/Syn-crow.github.io#readme"
+}
