@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/Syn-crow/Syn-crow.github.io/issues"
   },
-  "homepage": "https://github.com/Syn-crow/Syn-crow.github.io#readme"
+  "homepage": "https://github.com/Syn-crow/Syn-crow.github.io#readme",
+  "devDependencies": {
+    "mocha": "^7.0.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
 }
