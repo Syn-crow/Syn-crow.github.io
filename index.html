@@ -53,8 +53,8 @@ var app = new Vue({
         console.log(error,lexer);
         if(!error){
           let parsed = parse(lexer)[0];
-          this.displayTree(parsed);
-          this.results.push(parsed).getValue();
+          //this.displayTree(parsed);
+          this.results.push(parsed.getValue());
         }else {
           this.results.push("error in lexer");
         }

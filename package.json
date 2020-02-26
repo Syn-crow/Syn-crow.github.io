@@ -4,7 +4,7 @@
   "description": "[Syn-crow.github.io](https://syn-crow.github.io/)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,5 @@
   "homepage": "https://github.com/Syn-crow/Syn-crow.github.io#readme",
   "devDependencies": {
     "mocha": "^7.0.1"
-  },
-  "scripts": {
-    "test": "mocha"
   }
 }

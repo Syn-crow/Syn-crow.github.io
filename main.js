@@ -20,7 +20,6 @@ function parse(letex){
         if(duo.word =="/") pile.push({"a":a, "b":b, "operator":"/", getValue(){return this.a.getValue() / this.b.getValue() }});
       }
       if(duo.type=="NUMBER"){
-        console.log("duo:",duo);
         pile.push({"a":duo.word, "b":null, "operator":"null", getValue(){return this.a}});
       }
       if(duo.type=="SYMBOL"){
@@ -63,7 +62,6 @@ function parse(letex){
     if(letex[i].word=="("){
       next();//console.log("nextE1");
       parseA();
-      console.log("characters juste dans la formule:",letex[i]);
       if(letex[i].word==")"){
         product({"word":"()",type:"SYMBOL"})
         next();
@@ -77,7 +75,6 @@ function parse(letex){
     }
   }
   parseA();
-  console.log(pile[0].getValue());
   return pile;
 }
 
@@ -151,5 +148,6 @@ function iterate(code){
   return array;
 }
 exports._test = {
-    "iterate":iterate
+    "iterate":iterate,
+    "parse":parse
 }
