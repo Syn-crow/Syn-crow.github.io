@@ -18,5 +18,8 @@
   "homepage": "https://github.com/Syn-crow/Syn-crow.github.io#readme",
   "devDependencies": {
     "mocha": "^7.0.1"
+  },
+  "dependencies": {
+    "documentation": "^12.1.4"
   }
 }
