@@ -81,7 +81,11 @@ function parse(letex){
   parseA();
   return pile;
 }
-
+/**
+ * Given a string it will separate every character or group of character and create a letex that will be used to "compile" the string.
+ * @param {string} code the code to be analyzed
+ * @returns {array} result of the iteration, a letex that can be used to compile the code with parse
+ */
 function iterate(code){
 
   function consume(){
