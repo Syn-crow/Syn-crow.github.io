@@ -1,5 +1,9 @@
 
-
+/**
+ * Using the letex, calculates the result of the calculus which is equivalent to compiling the formula.
+ * @param {array} letex the letex corresponding to the formula we want to calculate
+ * @returns {array} result of the compilation, to calculate the result access the first element and use .getValue() of the element.
+ */
 
 function parse(letex){
   let pile = [];
