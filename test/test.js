@@ -3,7 +3,8 @@ var main = require('../main');
 describe("test unitaire",function(){
   describe('#iterate', function() {
     it('iterate("10 +9") should return [{"type":"NUMBER","word":"10"},{"type":"OPERATOR","word":"+"},{"type":"NUMBER","word":"9"}]', function() {
-        assert.deepEqual(main._test.iterate("10 +9"), [{"type":"NUMBER","word":"10"},{"type":"OPERATOR","word":"+"},{"type":"NUMBER","word":"9"}]);
+      assert.equal(10,5);  
+      assert.deepEqual(main._test.iterate("10 +9"), [{"type":"NUMBER","word":"10"},{"type":"OPERATOR","word":"+"},{"type":"NUMBER","word":"9"}]);
       });
     it('iterate("(10+4)x3") should return [{"type":"SYMBOL","word":"("},{"type":"NUMBER","word":"10"},{"type":"OPERATOR","word":"+"},{"type":"NUMBER","word":"4"},{"type":"SYMBOL","word":")"},{"type":"OPERATOR","word":"x"},{"type":"NUMBER","word":"3"}]', function() {
         assert.deepEqual(main._test.iterate("(10+4)x3"), [{"type":"SYMBOL","word":"("},{"type":"NUMBER","word":"10"},{"type":"OPERATOR","word":"+"},{"type":"NUMBER","word":"4"},{"type":"SYMBOL","word":")"},{"type":"OPERATOR","word":"x"},{"type":"NUMBER","word":"3"}]);
